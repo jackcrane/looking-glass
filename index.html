@@ -313,9 +313,12 @@ void main() {
     float radius = 64.0 / min(u_resolution.x, u_resolution.y);
     float distanceToMouse = length((normalizedTexCoord - normalizedMouse) * aspectRatio);
 
+    vec4 combinedColor = characterColor * blockColor;
+    vec4 invertedCombinedColor = vec4(1.0 - combinedColor.r, 1.0 - combinedColor.g, 1.0 - combinedColor.b, 1.0);
+
     // If the pixel is within the radius, draw the character multiplied by the block color; otherwise, make it transparent
     if (distanceToMouse < radius) {
-        gl_FragColor = characterColor * blockColor; // Multiply character color by block color
+        gl_FragColor = combinedColor * blockColor; // Multiply character color by block color
     } else {
         gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0); // Transparent
     }
