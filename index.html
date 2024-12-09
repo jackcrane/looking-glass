@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screenshot and Invert</title>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+      :root {
+        --image: url("data:image/jpeg;base64,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");
+      }
+      .canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999999;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body style="margin: 0; padding: 0">
+    <div
+      style="
+        /* background: linear-gradient(to right, #f00, #0f0, #00f); */
+        width: 100vw;
+        height: 25vh;
+        background-image: var(--image);
+      "
+    >
+      <h1 style="color: #fff; text-align: center; padding-top: 50px">
+        Hello World
+      </h1>
+    </div>
+    <p>
+      Lorem ipsum dolor sit amet, nulla eu excepteur non dolore anim excepteur
+      ut labo re proident in ex minim aliqua officia commodo laborum amet
+      adipisicing id do qu is tempor eu aliquip excepteur dolore duis aliqua
+      voluptate magna culpa ad quis id qui consequat excepteur nisi officia
+      reprehenderit anim ipsum cillum elit sun t nostrud nisi excepteur labore
+      adipisicing laboris sunt nostrud minim magna aut e esse cillum dolore enim
+      Lorem qui deserunt ut quis non ea cupidatat aliquip co mmodo tempor
+      officia veniam irure velit do anim esse sint elit anim magna labore
+      laboris culpa ipsum duis incididunt voluptate amet deserunt consequat
+      Lorem exc epteur velit mollit fugiat mollit sunt sunt do esse amet velit
+      id enim est venia m cillum magna mollit nostrud veniam officia amet
+      exercitation ea id laboris pro ident ipsum fugiat quis amet incididunt do
+      qui occaecat est deserunt ullamco est nostrud sit consectetur consectetur
+      id reprehenderit exercitation dolore tempor do id ullamco voluptate anim
+      in id quis velit reprehenderit do qui dolor offici a ea et tempor est
+      laborum qui sint excepteur mollit nulla voluptate proident co mmodo non
+      excepteur nulla ea id et minim consectetur laborum minim aliquip dolor e
+      id elit qui cupidatat cillum exercitation ex voluptate non eiusmod dolore
+      sint anim enim commodo elit sint minim ad proident excepteur enim ut quis
+      enim aliqu a amet laborum aliqua Lorem reprehenderit elit ut ut laborum
+      non excepteur sint nisi eu ea ut mollit dolor enim ex nisi dolore irure
+      adipisicing proident anim r eprehenderit eu ut labore ad sit duis nisi
+      sunt in consequat laborum dolore irur e sunt deserunt officia cupidatat
+      commodo aliqua officia commodo ut ut excepteur ad velit in pariatur quis
+      veniam consectetur ex anim incididunt ut pariatur dol or aliqua sint
+      aliquip elit deserunt aliqua consequat adipisicing ipsum sunt mag na
+      pariatur sunt deserunt dolor nostrud ad ut adipisicing incididunt anim
+      aliqua mollit Lorem esse dolor eu mollit voluptate irure id ut aliquip do
+      irure labori s irure ex anim ipsum excepteur sint non nisi veniam ex
+      eiusmod proident ea labo rum velit ad voluptate excepteur cupidatat enim
+      ipsum labore proident laborum do lore elit laboris in dolore exercitation
+      duis ullamco sunt culpa do tempor proid ent occaecat exercitation magna
+      sint velit reprehenderit enim quis adipisicing p ariatur nostrud
+      incididunt laboris sint eiusmod veniam dolor officia non adipisi cing
+      consectetur mollit Lorem id et cupidatat dolore dolore qui reprehenderit
+      ea cupidatat non adipisicing amet incididunt est nostrud veniam mollit
+      velit ad al iquip reprehenderit excepteur Lorem est proident consectetur
+      consectetur ullamco irure pariatur incididunt incididunt ad tempor est
+      magna ad excepteur tempor re prehenderit enim elit dolor cupidatat
+      exercitation adipisicing consequat excepte ur sit id esse sint fugiat
+      ullamco laboris fugiat velit fugiat esse id nisi comm odo mollit culpa
+      nostrud Lorem proident nostrud nostrud eiusmod ullamco reprehen derit elit
+      aute laborum esse ut fugiat fugiat laboris nulla nulla ad amet ipsum
+      eiusmod proident consectetur id non ea velit aute culpa incididunt non
+      ullamco f ugiat amet magna Lorem mollit labore aliquip fugiat exercitation
+      ex dolore esse dolore excepteur nostrud quis consequat culpa cupidatat
+      pariatur consectetur ull amco pariatur ea culpa excepteur est Lorem qui
+      magna id incididunt consequat nos trud duis proident Lorem ipsum dolor sit
+      amet, nulla eu excepteur non dolore anim excepteur ut labo re proident in
+      ex minim aliqua officia commodo laborum amet adipisicing id do qu is
+      tempor eu aliquip excepteur dolore duis aliqua voluptate magna culpa ad
+      quis id qui consequat excepteur nisi officia reprehenderit anim ipsum
+      cillum elit sun t nostrud nisi excepteur labore adipisicing laboris sunt
+      nostrud minim magna aut e esse cillum dolore enim Lorem qui deserunt ut
+      quis non ea cupidatat aliquip co mmodo tempor officia veniam irure velit
+      do anim esse sint elit anim magna labore laboris culpa ipsum duis
+      incididunt voluptate amet deserunt consequat Lorem exc epteur velit mollit
+      fugiat mollit sunt sunt do esse amet velit id enim est venia m cillum
+      magna mollit nostrud veniam officia amet exercitation ea id laboris pro
+      ident ipsum fugiat quis amet incididunt do qui occaecat est deserunt
+      ullamco est nostrud sit consectetur consectetur id reprehenderit
+      exercitation dolore tempor do id ullamco voluptate anim in id quis velit
+      reprehenderit do qui dolor offici a ea et tempor est laborum qui sint
+      excepteur mollit nulla voluptate proident co mmodo non excepteur nulla ea
+      id et minim consectetur laborum minim aliquip dolor e id elit qui
+      cupidatat cillum exercitation ex voluptate non eiusmod dolore sint anim
+      enim commodo elit sint minim ad proident excepteur enim ut quis enim aliqu
+      a amet laborum aliqua Lorem reprehenderit elit ut ut laborum non excepteur
+      sint nisi eu ea ut mollit dolor enim ex nisi dolore irure adipisicing
+      proident anim r eprehenderit eu ut labore ad sit duis nisi sunt in
+      consequat laborum dolore irur e sunt deserunt officia cupidatat commodo
+      aliqua officia commodo ut ut excepteur ad velit in pariatur quis veniam
+      consectetur ex anim incididunt ut pariatur dol or aliqua sint aliquip elit
+      deserunt aliqua consequat adipisicing ipsum sunt mag na pariatur sunt
+      deserunt dolor nostrud ad ut adipisicing incididunt anim aliqua mollit
+      Lorem esse dolor eu mollit voluptate irure id ut aliquip do irure labori s
+      irure ex anim ipsum excepteur sint non nisi veniam ex eiusmod proident ea
+      labo rum velit ad voluptate excepteur cupidatat enim ipsum labore proident
+      laborum do lore elit laboris in dolore exercitation duis ullamco sunt
+      culpa do tempor proid ent occaecat exercitation magna sint velit
+      reprehenderit enim quis adipisicing p ariatur nostrud incididunt laboris
+      sint eiusmod veniam dolor officia non adipisi cing consectetur mollit
+      Lorem id et cupidatat dolore dolore qui reprehenderit ea cupidatat non
+      adipisicing amet incididunt est nostrud veniam mollit velit ad al iquip
+      reprehenderit excepteur Lorem est proident consectetur consectetur ullamco
+      irure pariatur incididunt incididunt ad tempor est magna ad excepteur
+      tempor re prehenderit enim elit dolor cupidatat exercitation adipisicing
+      consequat excepte ur sit id esse sint fugiat ullamco laboris fugiat velit
+      fugiat esse id nisi comm odo mollit culpa nostrud Lorem proident nostrud
+      nostrud eiusmod ullamco reprehen derit elit aute laborum esse ut fugiat
+      fugiat laboris nulla nulla ad amet ipsum eiusmod proident consectetur id
+      non ea velit aute culpa incididunt non ullamco f ugiat amet magna Lorem
+      mollit labore aliquip fugiat exercitation ex dolore esse dolore excepteur
+      nostrud quis consequat culpa cupidatat pariatur consectetur ull amco
+      pariatur ea culpa excepteur est Lorem qui magna id incididunt consequat
+      nos trud duis proident Lorem ipsum dolor sit amet, nulla eu excepteur non
+      dolore anim excepteur ut labo re proident in ex minim aliqua officia
+      commodo laborum amet adipisicing id do qu is tempor eu aliquip excepteur
+      dolore duis aliqua voluptate magna culpa ad quis id qui consequat
+      excepteur nisi officia reprehenderit anim ipsum cillum elit sun t nostrud
+      nisi excepteur labore adipisicing laboris sunt nostrud minim magna aut e
+      esse cillum dolore enim Lorem qui deserunt ut quis non ea cupidatat
+      aliquip co mmodo tempor officia veniam irure velit do anim esse sint elit
+      anim magna labore laboris culpa ipsum duis incididunt voluptate amet
+      deserunt consequat Lorem exc epteur velit mollit fugiat mollit sunt sunt
+      do esse amet velit id enim est venia m cillum magna mollit nostrud veniam
+      officia amet exercitation ea id laboris pro ident ipsum fugiat quis amet
+      incididunt do qui occaecat est deserunt ullamco est nostrud sit
+      consectetur consectetur id reprehenderit exercitation dolore tempor do id
+      ullamco voluptate anim in id quis velit reprehenderit do qui dolor offici
+      a ea et tempor est laborum qui sint excepteur mollit nulla voluptate
+      proident co mmodo non excepteur nulla ea id et minim consectetur laborum
+      minim aliquip dolor e id elit qui cupidatat cillum exercitation ex
+      voluptate non eiusmod dolore sint anim enim commodo elit sint minim ad
+      proident excepteur enim ut quis enim aliqu a amet laborum aliqua Lorem
+      reprehenderit elit ut ut laborum non excepteur sint nisi eu ea ut mollit
+      dolor enim ex nisi dolore irure adipisicing proident anim r eprehenderit
+      eu ut labore ad sit duis nisi sunt in consequat laborum dolore irur e sunt
+      deserunt officia cupidatat commodo aliqua officia commodo ut ut excepteur
+      ad velit in pariatur quis veniam consectetur ex anim incididunt ut
+      pariatur dol or aliqua sint aliquip elit deserunt aliqua consequat
+      adipisicing ipsum sunt mag na pariatur sunt deserunt dolor nostrud ad ut
+      adipisicing incididunt anim aliqua mollit Lorem esse dolor eu mollit
+      voluptate irure id ut aliquip do irure labori s irure ex anim ipsum
+      excepteur sint non nisi veniam ex eiusmod proident ea labo rum velit ad
+      voluptate excepteur cupidatat enim ipsum labore proident laborum do lore
+      elit laboris in dolore exercitation duis ullamco sunt culpa do tempor
+      proid ent occaecat exercitation magna sint velit reprehenderit enim quis
+      adipisicing p ariatur nostrud incididunt laboris sint eiusmod veniam dolor
+      officia non adipisi cing consectetur mollit Lorem id et cupidatat dolore
+      dolore qui reprehenderit ea cupidatat non adipisicing amet incididunt est
+      nostrud veniam mollit velit ad al iquip reprehenderit excepteur Lorem est
+      proident consectetur consectetur ullamco irure pariatur incididunt
+      incididunt ad tempor est magna ad excepteur tempor re prehenderit enim
+      elit dolor cupidatat exercitation adipisicing consequat excepte ur sit id
+      esse sint fugiat ullamco laboris fugiat velit fugiat esse id nisi comm odo
+      mollit culpa nostrud Lorem proident nostrud nostrud eiusmod ullamco
+      reprehen derit elit aute laborum esse ut fugiat fugiat laboris nulla nulla
+      ad amet ipsum eiusmod proident consectetur id non ea velit aute culpa
+      incididunt non ullamco f ugiat amet magna Lorem mollit labore aliquip
+      fugiat exercitation ex dolore esse dolore excepteur nostrud quis consequat
+      culpa cupidatat pariatur consectetur ull amco pariatur ea culpa excepteur
+      est Lorem qui magna id incididunt consequat nos trud duis proident
+    </p>
+    <button
+      id="captureBtn"
+      style="position: absolute; top: 10px; left: 10px; z-index: 9999"
+    >
+      Capture and Invert
+    </button>
+    <script>
+      const createCanvas = () => {
+        const existingCanvas = document.querySelector(".canvas");
+        if (existingCanvas) {
+          return existingCanvas;
+        }
+
+        const glCanvas = document.createElement("canvas");
+        glCanvas.id = "glCanvas";
+        document.body.appendChild(glCanvas);
+        return glCanvas;
+      };
+
+      const loadImage = (src) => {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.src = src;
+          image.onload = () => resolve(image);
+          image.onerror = (err) => reject(err);
+        });
+      };
+
+      const createTextureFromImage = (gl, image) => {
+        const texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(
+          gl.TEXTURE_2D,
+          0,
+          gl.RGBA,
+          gl.RGBA,
+          gl.UNSIGNED_BYTE,
+          image
+        );
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        return texture;
+      };
+
+      const doIt = (mouseX, mouseY) => {
+        html2canvas(document.body, {
+          scale: 1,
+          x: window.scrollX,
+          y: window.scrollY,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        }).then((screenshotCanvas) => {
+          const glCanvas = createCanvas();
+          glCanvas.width = screenshotCanvas.width;
+          glCanvas.height = screenshotCanvas.height;
+          glCanvas.style.width = screenshotCanvas.width + "px";
+          glCanvas.style.height = screenshotCanvas.height + "px";
+          glCanvas.classList.add("canvas");
+          glCanvas.setAttribute("data-html2canvas-ignore", "true");
+
+          const gl = glCanvas.getContext("webgl", {
+            preserveDrawingBuffer: true,
+            antialias: false,
+          });
+
+          if (!gl) {
+            console.error("WebGL not supported");
+            return;
+          }
+
+          gl.viewport(0, 0, glCanvas.width, glCanvas.height);
+          gl.clearColor(0, 0, 0, 1);
+          gl.clear(gl.COLOR_BUFFER_BIT);
+
+          const vertexShaderSource = `
+            attribute vec2 a_position;
+            attribute vec2 a_texCoord;
+            varying vec2 v_texCoord;
+            void main() {
+              gl_Position = vec4(a_position, 0.0, 1.0);
+              v_texCoord = a_texCoord;
+            }
+          `;
+
+          const fragmentShaderSource = `
+          precision mediump float;
+
+varying vec2 v_texCoord;
+uniform sampler2D u_image;
+uniform vec2 u_mouse;
+uniform vec2 u_resolution;
+
+void main() {
+  vec2 aspectRatio = vec2(u_resolution.x / u_resolution.y, 1.0);
+
+  // Normalize mouse position and adjust for aspect ratio
+  vec2 normalizedMouse = u_mouse / u_resolution;
+  vec2 normalizedTexCoord = v_texCoord;
+
+  // Scale only the x-coordinate of the distance calculation
+  vec2 scaledDistance = (normalizedTexCoord - normalizedMouse) * aspectRatio;
+
+  float blockSize = 8.0; // Block size in pixels
+  vec2 normalizedBlockSize = vec2(blockSize) / u_resolution;
+
+  vec2 pixelCoord = v_texCoord * u_resolution;
+  vec2 blockRelativeCoord = mod(pixelCoord, blockSize);
+  vec2 blockCoord = floor(pixelCoord / blockSize) * blockSize / u_resolution;
+  vec4 blockColor = texture2D(u_image, blockCoord);
+
+  bool onEdge = blockRelativeCoord.x < 1.0 || blockRelativeCoord.y < 1.0;
+
+  // Use the true pixel-based radius for the circle
+  float radius = 64.0 / min(u_resolution.x, u_resolution.y);
+
+  // Calculate the four corners of the block
+  vec2 blockTopLeft = blockCoord;
+  vec2 blockTopRight = blockCoord + vec2(normalizedBlockSize.x, 0.0);
+  vec2 blockBottomLeft = blockCoord + vec2(0.0, normalizedBlockSize.y);
+  vec2 blockBottomRight = blockCoord + normalizedBlockSize;
+
+  // Check if all corners are inside the circle
+  bool canCompleteBlock =
+      length((blockTopLeft - normalizedMouse) * aspectRatio) < radius &&
+      length((blockTopRight - normalizedMouse) * aspectRatio) < radius &&
+      length((blockBottomLeft - normalizedMouse) * aspectRatio) < radius &&
+      length((blockBottomRight - normalizedMouse) * aspectRatio) < radius;
+
+  float blockLuminance = dot(blockColor.rgb, vec3(0.299, 0.587, 0.114));
+  // Band luminance to 8 values
+  float quantizedBlockLuminance = floor(blockLuminance * 8.0) / 8.0;
+
+  if (length(scaledDistance) < radius) {
+
+    if(canCompleteBlock) {
+      // if(onEdge) {
+      //   gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+      // } else {
+      //   gl_FragColor = blockColor;
+      // }
+
+      // gl_FragColor = blockColor;
+      gl_FragColor = vec4(quantizedBlockLuminance, quantizedBlockLuminance, quantizedBlockLuminance, 1.0);
+    }
+  } else {
+    gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+  }
+}
+          `;
+
+          const createShader = (type, source) => {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+              console.error(gl.getShaderInfoLog(shader));
+              gl.deleteShader(shader);
+              return null;
+            }
+            return shader;
+          };
+
+          const vertexShader = createShader(
+            gl.VERTEX_SHADER,
+            vertexShaderSource
+          );
+          const fragmentShader = createShader(
+            gl.FRAGMENT_SHADER,
+            fragmentShaderSource
+          );
+
+          const program = gl.createProgram();
+          gl.attachShader(program, vertexShader);
+          gl.attachShader(program, fragmentShader);
+          gl.linkProgram(program);
+
+          if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            console.error(gl.getProgramInfoLog(program));
+            return;
+          }
+
+          gl.useProgram(program);
+
+          const texture = gl.createTexture();
+          gl.bindTexture(gl.TEXTURE_2D, texture);
+
+          gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+          gl.texImage2D(
+            gl.TEXTURE_2D,
+            0,
+            gl.RGBA,
+            gl.RGBA,
+            gl.UNSIGNED_BYTE,
+            screenshotCanvas
+          );
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+          const positionBuffer = gl.createBuffer();
+          gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+          const positions = new Float32Array([
+            -1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1,
+          ]);
+          gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+
+          const texCoordBuffer = gl.createBuffer();
+          gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
+          const texCoords = new Float32Array([
+            0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1,
+          ]);
+          gl.bufferData(gl.ARRAY_BUFFER, texCoords, gl.STATIC_DRAW);
+
+          const aPositionLocation = gl.getAttribLocation(program, "a_position");
+          const aTexCoordLocation = gl.getAttribLocation(program, "a_texCoord");
+
+          gl.enableVertexAttribArray(aPositionLocation);
+          gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+          gl.vertexAttribPointer(aPositionLocation, 2, gl.FLOAT, false, 0, 0);
+
+          gl.enableVertexAttribArray(aTexCoordLocation);
+          gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
+          gl.vertexAttribPointer(aTexCoordLocation, 2, gl.FLOAT, false, 0, 0);
+
+          const uImageLocation = gl.getUniformLocation(program, "u_image");
+          const uMouseLocation = gl.getUniformLocation(program, "u_mouse");
+          const uResolutionLocation = gl.getUniformLocation(
+            program,
+            "u_resolution"
+          );
+
+          gl.uniform1i(uImageLocation, 0);
+          const correctedMouseY = glCanvas.height - mouseY;
+          gl.uniform2f(uMouseLocation, mouseX, correctedMouseY);
+          gl.uniform2f(uResolutionLocation, glCanvas.width, glCanvas.height);
+
+          gl.drawArrays(gl.TRIANGLES, 0, 6);
+        });
+      };
+
+      // Prevent the canvas from being rendered more than 30 times per second
+      let lastCalled = null;
+      let lastMousePositionEvent = null;
+      window.addEventListener("mousemove", (event) => {
+        lastMousePositionEvent = event;
+        const now = Date.now();
+        if (lastCalled && now - lastCalled < 1000 / 10) {
+          return;
+        }
+        doIt(event.clientX, event.clientY);
+        lastCalled = now;
+      });
+
+      window.addEventListener("scroll", () => {
+        const event = lastMousePositionEvent;
+        const now = Date.now();
+        if (lastCalled && now - lastCalled < 1000 / 10) {
+          return;
+        }
+        doIt(event.clientX, event.clientY);
+        lastCalled = now;
+      });
+    </script>
+  </body>
+</html>
